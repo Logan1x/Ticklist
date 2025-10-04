@@ -4,7 +4,7 @@ import { describe, it, expect, vi } from "vitest";
 import TodoTable from "./TodoTable";
 
 describe("TodoTable", () => {
-  it("renders todos in the table", () => {
+  it("renders todos as individual cards", () => {
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
     const todos = [
@@ -58,7 +58,8 @@ describe("TodoTable", () => {
       />
     );
 
-    const button = screen.getByRole("button", { name: /delete/i });
+    // Since the button contains an icon, we can query by role and fallback to the parent
+    const button = screen.getByRole("button");
     await user.click(button);
 
     expect(mockOnDelete).toHaveBeenCalledWith("1");
@@ -73,5 +74,22 @@ describe("TodoTable", () => {
     );
 
     expect(screen.getByText("No todos yet")).toBeInTheDocument();
+  });
+
+  it("applies line-through style for completed todos", () => {
+    const mockOnToggle = vi.fn();
+    const mockOnDelete = vi.fn();
+    const todos = [{ id: "1", text: "Completed task", completed: true }];
+
+    render(
+      <TodoTable
+        todos={todos}
+        onToggle={mockOnToggle}
+        onDelete={mockOnDelete}
+      />
+    );
+
+    const task = screen.getByText("Completed task");
+    expect(task).toHaveClass("line-through text-gray-500");
   });
 });

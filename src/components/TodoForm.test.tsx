@@ -8,7 +8,9 @@ describe("TodoForm", () => {
     const mockOnAdd = vi.fn();
     render(<TodoForm onAdd={mockOnAdd} />);
 
-    expect(screen.getByPlaceholderText("Add a todo")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Drink water, walk the dog, code...")
+    ).toBeInTheDocument();
     expect(screen.getByText("Add")).toBeInTheDocument();
   });
 
@@ -17,7 +19,9 @@ describe("TodoForm", () => {
     const mockOnAdd = vi.fn();
     render(<TodoForm onAdd={mockOnAdd} />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     await user.type(input, "New todo item");
 
     expect(input).toHaveValue("New todo item");
@@ -28,7 +32,9 @@ describe("TodoForm", () => {
     const mockOnAdd = vi.fn();
     render(<TodoForm onAdd={mockOnAdd} />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     await user.type(input, "New todo item");
 
     const button = screen.getByText("Add");
@@ -53,7 +59,9 @@ describe("TodoForm", () => {
     const mockOnAdd = vi.fn();
     render(<TodoForm onAdd={mockOnAdd} />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     await user.type(input, "   ");
 
     const button = screen.getByText("Add");
@@ -67,7 +75,9 @@ describe("TodoForm", () => {
     const mockOnAdd = vi.fn();
     render(<TodoForm onAdd={mockOnAdd} />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     await user.type(input, "New todo item");
 
     const button = screen.getByText("Add");

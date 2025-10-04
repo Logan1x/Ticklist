@@ -14,7 +14,9 @@ describe("App", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     const button = screen.getByText("Add");
 
     await user.type(input, "New Task");
@@ -28,7 +30,9 @@ describe("App", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     const button = screen.getByText("Add");
 
     await user.type(input, "   ");
@@ -42,7 +46,9 @@ describe("App", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
     const button = screen.getByText("Add");
 
     await user.type(input, "Toggle Task");
@@ -61,12 +67,17 @@ describe("App", () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const input = screen.getByPlaceholderText("Add a todo");
-    const button = screen.getByText("Add");
+    const input = screen.getByPlaceholderText(
+      "Drink water, walk the dog, code..."
+    );
+
+    // Query the add button by role and text
+    const addButton = screen.getByRole("button", { name: /add/i });
 
     await user.type(input, "Delete Task");
-    await user.click(button);
+    await user.click(addButton);
 
+    // Delete the todo
     const deleteButton = screen.getByRole("button", { name: /delete/i });
     await user.click(deleteButton);
 
