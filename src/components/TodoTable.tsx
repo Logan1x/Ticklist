@@ -24,7 +24,7 @@ export default function TodoTable({
                 type="checkbox"
                 checked={t.completed}
                 onChange={() => onToggle(t.id)}
-                className="accent-blue-600"
+                className="accent-blue-600 cursor-pointer"
               />
               <span className={t.completed ? "text-gray-500 line-through" : ""}>
                 {t.text}

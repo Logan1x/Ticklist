@@ -58,7 +58,6 @@ describe("TodoTable", () => {
       />
     );
 
-    // Since the button contains an icon, we can query by role and fallback to the parent
     const button = screen.getByRole("button");
     await user.click(button);
 

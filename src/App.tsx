@@ -56,7 +56,15 @@ export default function App() {
         <div className="max-w-3xl p-4 mx-auto">
           <div className="flex items-baseline justify-between mb-6">
             <h1 className="mb-4 text-2xl font-bold">Ticklist.</h1>
-            <GithubIcon />
+            <a
+              href="https://github.com/Logan1x/Ticklist"
+              aria-label="GitHub repository"
+              className="cursor-pointer"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <GithubIcon />
+            </a>
           </div>
           <div className="">
             <TodoForm onAdd={addTodo} />

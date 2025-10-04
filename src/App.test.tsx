@@ -71,13 +71,11 @@ describe("App", () => {
       "Drink water, walk the dog, code..."
     );
 
-    // Query the add button by role and text
     const addButton = screen.getByRole("button", { name: /add/i });
 
     await user.type(input, "Delete Task");
     await user.click(addButton);
 
-    // Delete the todo
     const deleteButton = screen.getByRole("button", { name: /delete/i });
     await user.click(deleteButton);
 
