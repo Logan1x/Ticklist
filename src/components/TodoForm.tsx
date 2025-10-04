@@ -28,10 +28,11 @@ export default function TodoForm({ onAdd }: TodoFormProps) {
       <button
         type="submit"
         aria-label="Add todo"
-        className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 active:bg-blue-800"
+        disabled={!text.trim()}
+        className="group rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 active:bg-blue-800 disabled:cursor-not-allowed disabled:opacity-50"
       >
         <div className="flex items-center gap-2">
-          <PlusIcon />
+          <PlusIcon classes="transition-transform duration-300 group-hover:rotate-90" />
           <span className="hidden sm:inline">Add</span>
         </div>
       </button>

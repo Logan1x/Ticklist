@@ -32,7 +32,7 @@ export default function TodoTable({
             </div>
             <button
               onClick={() => onDelete(t.id)}
-              className="rounded-md px-3 py-1.5 hover:text-red-400 active:text-red-700 cursor-pointer flex justify-center"
+              className="group rounded-md px-3 py-1.5  cursor-pointer flex justify-center"
               aria-label="Delete todo"
             >
               <TrashIcon />

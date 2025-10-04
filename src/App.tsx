@@ -59,7 +59,7 @@ export default function App() {
             <a
               href="https://github.com/Logan1x/Ticklist"
               aria-label="GitHub repository"
-              className="cursor-pointer"
+              className="cursor-pointer group hover:text-blue-600"
               target="_blank"
               rel="noreferrer"
             >
