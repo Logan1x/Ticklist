@@ -1,4 +1,16 @@
-export default function TodoTable({ todos, onToggle, onDelete }) {
+import { TrashIcon } from "./Icons";
+
+interface TodoTableProps {
+  todos: { id: string; text: string; completed: boolean }[];
+  onToggle: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export default function TodoTable({
+  todos,
+  onToggle,
+  onDelete,
+}: TodoTableProps) {
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 rounded-lg border border-gray-200 bg-white">
@@ -36,9 +48,9 @@ export default function TodoTable({ todos, onToggle, onDelete }) {
               <td className="px-4 py-3">
                 <button
                   onClick={() => onDelete(t.id)}
-                  className="rounded-md bg-red-500 px-3 py-1.5 text-white hover:bg-red-600 active:bg-red-700"
+                  className="rounded-md px-3 py-1.5  hover:text-red-400 active:text-red-700 cursor-pointer"
                 >
-                  Delete
+                  <TrashIcon />
                 </button>
               </td>
             </tr>
@@ -46,7 +58,7 @@ export default function TodoTable({ todos, onToggle, onDelete }) {
           {todos.length === 0 && (
             <tr>
               <td
-                colSpan="3"
+                colSpan={3}
                 className="px-4 py-6 text-center text-sm text-gray-500"
               >
                 No todos yet

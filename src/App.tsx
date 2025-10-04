@@ -1,10 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
+import TodoForm from "./components/TodoForm.jsx";
+import TodoTable from "./components/TodoTable.jsx";
+import { GithubIcon } from "./components/Icons.js";
 
 const STORAGE_KEY = "todos_v1";
 
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
 export default function App() {
-  const [text, setText] = useState("");
-  const [todos, setTodos] = useState(() => {
+  const [todos, setTodos] = useState<Todo[]>(() => {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : [];
@@ -23,79 +31,43 @@ export default function App() {
     return copy;
   }, [todos]);
 
-  const addTodo = () => {
+  const addTodo = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
     setTodos((prev) => [
       ...prev,
       { id: crypto.randomUUID(), text: trimmed, completed: false },
     ]);
-    setText("");
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addTodo();
-  };
-
-  const toggle = (id) => {
+  const toggleTodo = (id: string) => {
     setTodos((prev) =>
       prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
   };
 
-  const removeOne = (id) => {
+  const deleteTodo = (id: string) => {
     setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
-    <div className="mx-auto max-w-xl p-6">
-      <h1 className="text-2xl font-semibold mb-4">Todos</h1>
-
-      <form onSubmit={onSubmit} className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Add a todo"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-base outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-        />
-        <button
-          type="submit"
-          className="rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 active:bg-blue-800"
-        >
-          Add
-        </button>
-      </form>
-
-      <ul className="mt-4 space-y-2">
-        {ordered.map((t) => (
-          <li
-            key={t.id}
-            className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3"
-          >
-            <input
-              type="checkbox"
-              checked={t.completed}
-              onChange={() => toggle(t.id)}
-              className="size-5 accent-blue-600"
+    <div className="mx-auto p-3 md:p-6 h-screen bg-neutral-900">
+      <div className="h-full w-full bg-neutral-50 rounded-lg p-2 sm:p-6">
+        <div className="max-w-3xl p-4 mx-auto">
+          <div className="flex items-baseline justify-between mb-6">
+            <h1 className="mb-4 text-2xl font-bold">Ticklist.</h1>
+            <GithubIcon />
+          </div>
+          <div className="">
+            <TodoForm onAdd={addTodo} />
+            <TodoTable
+              todos={ordered}
+              onToggle={toggleTodo}
+              onDelete={deleteTodo}
             />
-            <span
-              className={`flex-1 ${
-                t.completed ? "line-through text-gray-500" : ""
-              }`}
-            >
-              {t.text}
-            </span>
-            <button
-              onClick={() => removeOne(t.id)}
-              className="rounded-md bg-red-500 px-3 py-1.5 text-white hover:bg-red-600 active:bg-red-700"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

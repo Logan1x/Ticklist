@@ -1,9 +1,13 @@
 import { useState } from "react";
 
-export default function TodoForm({ onAdd }) {
+interface TodoFormProps {
+  onAdd: (text: string) => void;
+}
+
+export default function TodoForm({ onAdd }: TodoFormProps) {
   const [text, setText] = useState("");
 
-  const submit = (e) => {
+  const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!text.trim()) return;
     onAdd(text);
