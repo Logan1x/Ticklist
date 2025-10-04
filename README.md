@@ -1,6 +1,6 @@
 # Ticklist.
 
-Ticklist is an (React + Typescript) todo app.
+Ticklist is a (React + Typescript) todo app.
 
 URL: https://ticklist-puce.vercel.app/
 
@@ -28,3 +28,9 @@ URL: https://ticklist-puce.vercel.app/
 ├── README.md               # Project documentation
 └── ...                     # Other configuration files
 ```
+# Screengrabs
+## Desktop View
+<img width="1024" height="697" alt="ticklist-puce vercel app_ (1)" src="https://github.com/user-attachments/assets/5d3b848d-a140-4d41-bc09-2b16911223aa" />
+
+## Mobile View
+<img width="412" height="915" alt="ticklist-puce vercel app_(Pixel 7)" src="https://github.com/user-attachments/assets/bf04caf5-8ac1-499c-bbd6-27f7b358b1ce" />
