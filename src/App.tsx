@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import TodoForm from "./components/TodoForm.jsx";
 import TodoTable from "./components/TodoTable.jsx";
-import { GithubIcon } from "./components/Icons.js";
+import { GithubIcon, RedoIcon, UndoIcon } from "./components/Icons.js";
+import { useUndoRedo } from "./hooks/useUndoRedo"; // <-- new import
 
 const STORAGE_KEY = "todos_v1";
 
@@ -12,14 +13,23 @@ interface Todo {
 }
 
 export default function App() {
-  const [todos, setTodos] = useState<Todo[]>(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
-    }
-  });
+  const {
+    present: todos,
+    set,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+  } = useUndoRedo<Todo[]>(
+    (() => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch {
+        return [];
+      }
+    })()
+  );
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
@@ -34,20 +44,20 @@ export default function App() {
   const addTodo = (text: string) => {
     const trimmed = text.trim();
     if (!trimmed) return;
-    setTodos((prev) => [
-      ...prev,
+    set([
+      ...todos,
       { id: crypto.randomUUID(), text: trimmed, completed: false },
     ]);
   };
 
   const toggleTodo = (id: string) => {
-    setTodos((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+    set(
+      todos.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
     );
   };
 
   const deleteTodo = (id: string) => {
-    setTodos((prev) => prev.filter((t) => t.id !== id));
+    set(todos.filter((t) => t.id !== id));
   };
 
   return (
@@ -56,24 +66,39 @@ export default function App() {
         <div className="max-w-3xl p-4 mx-auto">
           <div className="flex items-baseline justify-between mb-6">
             <h1 className="mb-4 text-2xl font-bold">Ticklist.</h1>
-            <a
-              href="https://github.com/Logan1x/Ticklist"
-              aria-label="GitHub repository"
-              className="cursor-pointer group hover:text-blue-600"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <GithubIcon />
-            </a>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={undo}
+                disabled={!canUndo}
+                className=" disabled:opacity-40 cursor-pointer"
+              >
+                <UndoIcon />
+              </button>
+              <button
+                onClick={redo}
+                disabled={!canRedo}
+                className="disabled:opacity-40 cursor-pointer"
+              >
+                <RedoIcon />
+              </button>
+              <a
+                href="https://github.com/Logan1x/Ticklist"
+                aria-label="GitHub repository"
+                className="cursor-pointer group hover:text-blue-600"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <GithubIcon />
+              </a>
+            </div>
           </div>
-          <div className="">
-            <TodoForm onAdd={addTodo} />
-            <TodoTable
-              todos={ordered}
-              onToggle={toggleTodo}
-              onDelete={deleteTodo}
-            />
-          </div>
+
+          <TodoForm onAdd={addTodo} />
+          <TodoTable
+            todos={ordered}
+            onToggle={toggleTodo}
+            onDelete={deleteTodo}
+          />
         </div>
       </div>
     </div>
