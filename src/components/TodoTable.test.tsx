@@ -7,6 +7,7 @@ describe("TodoTable", () => {
   it("renders todos as individual cards", () => {
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
+    const mockOnReorder = vi.fn();
     const todos = [
       { id: "1", text: "First task", completed: false },
       { id: "2", text: "Second task", completed: true },
@@ -17,6 +18,7 @@ describe("TodoTable", () => {
         todos={todos}
         onToggle={mockOnToggle}
         onDelete={mockOnDelete}
+        onReorder={mockOnReorder}
       />
     );
 
@@ -28,6 +30,7 @@ describe("TodoTable", () => {
     const user = userEvent.setup();
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
+    const mockOnReorder = vi.fn();
     const todos = [{ id: "1", text: "Task to toggle", completed: false }];
 
     render(
@@ -35,6 +38,7 @@ describe("TodoTable", () => {
         todos={todos}
         onToggle={mockOnToggle}
         onDelete={mockOnDelete}
+        onReorder={mockOnReorder}
       />
     );
 
@@ -48,6 +52,7 @@ describe("TodoTable", () => {
     const user = userEvent.setup();
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
+    const mockOnReorder = vi.fn();
     const todos = [{ id: "1", text: "Task to delete", completed: false }];
 
     render(
@@ -55,10 +60,11 @@ describe("TodoTable", () => {
         todos={todos}
         onToggle={mockOnToggle}
         onDelete={mockOnDelete}
+        onReorder={mockOnReorder}
       />
     );
 
-    const button = screen.getByRole("button");
+    const button = screen.getByRole("button", { name: "Delete todo" });
     await user.click(button);
 
     expect(mockOnDelete).toHaveBeenCalledWith("1");
@@ -67,9 +73,15 @@ describe("TodoTable", () => {
   it("shows 'No todos yet' when the list is empty", () => {
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
+    const mockOnReorder = vi.fn();
 
     render(
-      <TodoTable todos={[]} onToggle={mockOnToggle} onDelete={mockOnDelete} />
+      <TodoTable
+        todos={[]}
+        onToggle={mockOnToggle}
+        onDelete={mockOnDelete}
+        onReorder={mockOnReorder}
+      />
     );
 
     expect(screen.getByText("No todos yet")).toBeInTheDocument();
@@ -78,6 +90,7 @@ describe("TodoTable", () => {
   it("applies line-through style for completed todos", () => {
     const mockOnToggle = vi.fn();
     const mockOnDelete = vi.fn();
+    const mockOnReorder = vi.fn();
     const todos = [{ id: "1", text: "Completed task", completed: true }];
 
     render(
@@ -85,6 +98,7 @@ describe("TodoTable", () => {
         todos={todos}
         onToggle={mockOnToggle}
         onDelete={mockOnDelete}
+        onReorder={mockOnReorder}
       />
     );
 

@@ -60,6 +60,13 @@ export default function App() {
     set(todos.filter((t) => t.id !== id));
   };
 
+  const reorderTodos = (oldIndex: number, newIndex: number) => {
+    const newTodos = [...todos];
+    const [reorderedTodo] = newTodos.splice(oldIndex, 1);
+    newTodos.splice(newIndex, 0, reorderedTodo);
+    set(newTodos);
+  };
+
   return (
     <div className="mx-auto p-3 md:p-6 h-screen bg-neutral-900">
       <div className="h-full w-full bg-neutral-50 rounded-lg p-2 sm:p-6">
@@ -98,6 +105,7 @@ export default function App() {
             todos={ordered}
             onToggle={toggleTodo}
             onDelete={deleteTodo}
+            onReorder={reorderTodos}
           />
         </div>
       </div>
