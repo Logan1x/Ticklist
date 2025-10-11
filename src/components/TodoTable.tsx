@@ -40,7 +40,7 @@ function SortableTodoItem({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: todo.id });
+  } = useSortable({ id: todo.id, disabled: todo.completed });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -60,7 +60,9 @@ function SortableTodoItem({
         <div
           {...attributes}
           {...listeners}
-          className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 p-2 -m-2 touch-none select-none"
+          className={`cursor-grab active:cursor-grabbing text-gray-400  p-2 -m-2 touch-none select-none ${
+            todo.completed ? "cursor-not-allowed " : "hover:text-gray-600"
+          }`}
           style={{ touchAction: "none" }}
           role="button"
           tabIndex={-1}

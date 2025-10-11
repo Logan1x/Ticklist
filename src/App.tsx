@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import TodoForm from "./components/TodoForm.jsx";
 import TodoTable from "./components/TodoTable.jsx";
 import { GithubIcon, RedoIcon, UndoIcon } from "./components/Icons.js";
-import { useUndoRedo } from "./hooks/useUndoRedo"; // <-- new import
+import { useUndoRedo } from "./hooks/useUndoRedo";
 
 const STORAGE_KEY = "todos_v1";
 
@@ -61,7 +61,7 @@ export default function App() {
   };
 
   const reorderTodos = (oldIndex: number, newIndex: number) => {
-    const newTodos = [...todos];
+    const newTodos = [...ordered];
     const [reorderedTodo] = newTodos.splice(oldIndex, 1);
     newTodos.splice(newIndex, 0, reorderedTodo);
     set(newTodos);
